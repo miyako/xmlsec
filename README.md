@@ -38,9 +38,9 @@ If ($params=Null)
 	
 Else 
 	
-	var $xmlsec : cs.xmlsec
+	var $xmlsec : cs.xmlsec.xmlsec
 	
-	$xmlsec:=cs.xmlsec.new(cs._xmlsec_Controller)
+	$xmlsec:=cs.xmlsec.xmlsec.new(cs._xmlsec_Controller)
 	
 	$xml:=File("/DATA/wifi.xml")
 	$xml:=OB Class($xml).new($xml.platformPath; fk platform path)
