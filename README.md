@@ -23,6 +23,42 @@
 }
 ```
 
+## Usage
+
+```4d
+#DECLARE($params : Object)
+
+If ($params=Null)
+	
+	/*
+		async calls must be performed in a worker or form
+	*/
+	
+	CALL WORKER(1; Current method name; {})
+	
+Else 
+	
+	var $xmlsec : cs.xmlsec
+	
+	$xmlsec:=cs.xmlsec.new(cs._xmlsec_Controller)
+	
+	$xml:=File("/DATA/wifi.xml")
+	$xml:=OB Class($xml).new($xml.platformPath; fk platform path)
+	
+	$pem:=File("/DATA/private.pem")
+	$pem:=OB Class($pem).new($pem.platformPath; fk platform path)
+	
+	$out:=Folder(fk desktop folder).file("signed-wifi.xml")
+	
+	$xmlsec.perform(["--sign"; "--output"; $out; "--privkey-pem"; $pem; "--pwd"; "1234"; "--lax-key-search"; $xml])
+	
+	/*
+		https://www.aleksey.com/xmlsec/faq.html
+	*/
+	
+End if
+```
+
 ## CLI Build
 
 ```
