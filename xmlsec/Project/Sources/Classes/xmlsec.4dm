@@ -1,18 +1,20 @@
 Class extends _CLI
 
-Class constructor()
+Class constructor($controller : 4D:C1709.Class)
 	
-	Super:C1705(Is macOS:C1572 ? "xmlsec1" : "xmlsec"; cs:C1710._xmlsec_Controller)
+	Super:C1705(Is macOS:C1572 ? "xmlsec1" : "xmlsec"; $controller=Null:C1517 ? cs:C1710._xmlsec_Controller : $controller)
+	
+	This:C1470.controller.timeout:=5
 	
 Function get worker() : 4D:C1709.SystemWorker
 	
-	return This:C1470._controller.worker
+	return This:C1470.controller.worker
 	
-Function get controller()->$controller : cs:C1710._xmlsec_Controller
+Function get controller() : cs:C1710._xmlsec_Controller
 	
-	$controller:=This:C1470._controller
+	return This:C1470._controller
 	
-Function _terminate()
+Function terminate()
 	
 	This:C1470.controller.terminate()
 	
@@ -27,8 +29,6 @@ Function version() : Text
 	$version:=Split string:C1554(This:C1470.data; This:C1470.EOL; sk trim spaces:K86:2 | sk ignore empty strings:K86:1)
 	
 	return $version.length#0 ? $version[0] : ""
-	
-Function sign()
 	
 Function perform($options : Collection) : cs:C1710.xmlsec
 	
@@ -50,7 +50,7 @@ Function perform($options : Collection) : cs:C1710.xmlsec
 				
 			: (Value type:C1509($option)=Is text:K8:3)
 				Case of 
-					: ($option="--@")
+					: ($option="--@") || (Match regex:C1019("-[a-z]"; $option))
 						$command+=" "+$option
 					Else 
 						$command+=" "+This:C1470.escape($option)
