@@ -17,7 +17,7 @@
     "dependencies": {
         "xmlsec": {
             "github": "miyako/xmlsec",
-            "version": "*"
+            "version": "latest"
         }
     }
 }
